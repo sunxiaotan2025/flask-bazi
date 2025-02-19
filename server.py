@@ -49,4 +49,4 @@ def get_bazi():
     return jsonify(bazi_result), 200, {"Content-Type": "application/json; charset=utf-8"}
 
 if __name__ == '__main__':
-   app.run(host="11.2.174.215", port=5000, debug=True)
+   app.run(host="0.0.0.0", port=5000, debug=True)
