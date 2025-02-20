@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>八字计算</title>
+</head>
+<body>
+    <h1>请输入出生日期</h1>
+    <input type="date" id="birthDate">
+    <input type="time" id="birthTime">
+    <button onclick="calculateBazi()">计算八字</button>
+    <pre id="result"></pre>
+
+    <script>
+        function calculateBazi() {
+            let date = document.getElementById("birthDate").value;
+            let time = document.getElementById("birthTime").value;
+            if (!date || !time) {
+                alert("请填写完整的出生日期和时间！");
+                return;
+            }
+            let [year, month, day] = date.split("-");
+            let [hour] = time.split(":");
+
+            fetch(`https://flask-bazi.onrender.com/api/bazi?year=${year}&month=${month}&day=${day}&hour=${hour}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById("result").textContent = "请求失败，请检查服务器是否正常运行";
+                });
+        }
+    </script>
+</body>
+</html>
