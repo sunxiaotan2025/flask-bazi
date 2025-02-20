@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # 允许前端访问 API
 import datetime
 from lunarcalendar import Converter, Solar
 
+
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # 允许所有域访问 API
 
 TIANGAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 DIZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
@@ -49,4 +52,7 @@ def get_bazi():
     return jsonify(bazi_result), 200, {"Content-Type": "application/json; charset=utf-8"}
 
 if __name__ == '__main__':
-   app.run(host="0.0.0.0", port=5000, debug=True)
+import os  # 添加这一行
+
+port = int(os.environ.get("PORT", 5000))  # 让 Flask 使用 Render 服务器分配的端口
+app.run(host="0.0.0.0", port=port, debug=True)
